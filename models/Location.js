@@ -34,6 +34,11 @@ var Location =
     return db.query("CALL Load_Department()", [], callback);
   },
 
+    Load_Department_Status: function (callback) {
+    return db.query("CALL Load_Department_Status()", [], callback);
+  },
+
+
   Search_Location: function (Location_Name_, Branch_Id_, Department_Id_, callback) {
     if (Location_Name_ === 'undefined' || Location_Name_ === '' || Location_Name_ === undefined)
       Location_Name_ = '';

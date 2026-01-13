@@ -323,6 +323,27 @@ router.get('/Search_Department_User_Typeahead_student/:Branch_Id_?/:Department_I
   try {
     Department.Search_Department_User_Typeahead_student(req.params.Branch_Id_, req.params.Department_Id_, req.params.Users_Name_, req.params.Login_User_Id_, function (err, rows) {
       if (err) {
+        console.log(err);
+        res.json(err);
+      }
+      else {
+        console.log(rows);
+        res.json(rows);
+      }
+    });
+  }
+  catch (e) {
+     console.log(e);
+  }
+  finally {
+  }
+});
+
+
+router.get('/Search_DSEUser_Typeahead/:Users_Name_?', function (req, res, next) {
+  try {
+    Department.Search_DSEUser_Typeahead(req.params.Users_Name_, function (err, rows) {
+      if (err) {
         res.json(err);
       }
       else {
@@ -338,9 +359,10 @@ router.get('/Search_Department_User_Typeahead_student/:Branch_Id_?/:Department_I
 });
 
 
-router.get('/Search_DSEUser_Typeahead/:Users_Name_?', function (req, res, next) {
+
+router.get('/Search_Default_Department_Typeahead/:Department_Name_?', function (req, res, next) {
   try {
-    Department.Search_DSEUser_Typeahead(req.params.Users_Name_, function (err, rows) {
+    Department.Search_Default_Department_Typeahead(req.params.Department_Name_, function (err, rows) {
       if (err) {
         res.json(err);
       }

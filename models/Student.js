@@ -413,6 +413,7 @@ var Student = {
     return db.query(
       "CALL Save_Profile(" +
       "@Student_Id_ :=?," +
+      "@Entry_date_ :=?,"+
       "@Enquiry_Source_Id_ :=?," +
       "@Enquiry_Source_Name_ :=?," +
       "@Enquiryfor_Id_ :=?," +
@@ -514,6 +515,7 @@ var Student = {
       ")",
       [
         Profile_.Student_Id,
+        Profile_.Entry_date,
         Profile_.Enquiry_Source_Id,
         Profile_.Enquiry_Source_Name,
         Profile_.Enquiryfor_Id,
@@ -860,6 +862,16 @@ var Student = {
       callback
     );
   },
+
+  Get_WorkexperienceDetails: function (Student_Id_,Department_Id_,Status_Id_, callback) {
+    console.log(Student_Id_);
+    return db.query(
+      "CALL Get_Followup_Date_Generic(@Student_Id_ :=?,@Department_Id_ :=?,@Status_Id_ :=?)",
+      [Student_Id_,Department_Id_,Status_Id_],
+      callback
+    );
+  },
+
   Get_Visa_Task: function (Student_Id_, Task_Group_Id_, callback) {
     return db.query(
       "CALL Get_Visa_Task(@Student_Id_ :=?," + "@Task_Group_Id_ :=?)",
@@ -1303,7 +1315,8 @@ var Student = {
     Register_Value,
     Country_Id,
     Student_Id_,
-    Enquiry_Source_Id_
+    Enquiry_Source_Id_,
+    program_course_Id_
 
   ) {
     var Leads = [];
@@ -1333,7 +1346,8 @@ var Student = {
         Register_Value,
         Country_Id,
         Student_Id_,
-        Enquiry_Source_Id_
+        Enquiry_Source_Id_,
+        program_course_Id_
       ]).result();
     } catch (e) {
       console.log(e);
@@ -7102,8 +7116,8 @@ var Student = {
     console.log(Student_Details);
 
     return db.query(
-      "CALL Save_Student_Report_FollowUp(@Student_Selected_Details_ :=?,@By_User_Id_ :=?,@Branch_ :=?,@Branch_Name_ :=?,@By_User_Name_ :=?,@Remove_Old_User_Value_ :=?," +
-      "@Department_ :=?, @Status_ :=?)",
+      "CALL Save_Student_Report_FollowUp(@Student_Selected_Details_ :=?,@By_User_Id_ :=?,@Branch_ :=?,@Branch_Name_ :=?,"+
+      "@By_User_Name_ :=?,@Remove_Old_User_Value_ :=?,@Department_ :=?, @Status_ :=?,@Followup_Date_ :=?,@Next_FollowUp_Date_ :=?)",
       [
         JSON.stringify(Student_Details.Student_Selected_Details),
         Student_Details.By_User_Id,
@@ -7115,6 +7129,8 @@ var Student = {
         Student_Details.Remove_Old_User_Value,
         Student_Details.Department,
         Student_Details.Status,
+        Student_Details.Followup_Date,
+        Student_Details.Next_FollowUp_Date
       ],
       callback
     );
@@ -8376,7 +8392,8 @@ var Student = {
     Register_Value_,
     Date_value_,
     Country_id_,
-    Course_Id_
+    Course_Id_,
+    Enquiry_For_
   ) {
     var Leads = [];
     try {
@@ -8403,6 +8420,7 @@ var Student = {
         Date_value_,
         Country_id_,
         Course_Id_,
+        Enquiry_For_
       ]).result();
     } catch (e) { }
 
@@ -8756,13 +8774,12 @@ var Student = {
     return db.query("CALL Load_Automatic_Departments()", [], callback);
   },
 
-  Get_ToStaff_Student_DataCount: function (Branch_, Followup_Date_, callback) {
-    console.log(Branch_, Followup_Date_);
+  Get_ToStaff_Student_DataCount: function (Branch_, Followup_Date_, Department_Id_, callback) {
+    console.log(Branch_, Followup_Date_, Department_Id_);
 
     return db.query(
-      "CALL Get_ToStaff_Student_DataCount(@Branch_ :=?," +
-      "@Followup_Date_ :=?)",
-      [Branch_, Followup_Date_],
+      "CALL Get_ToStaff_Student_DataCount(@Branch_ :=?,@Followup_Date_ :=?,@Department_Id_ :=?)",
+      [Branch_, Followup_Date_,Department_Id_],
       callback
     );
   },

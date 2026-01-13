@@ -145,7 +145,12 @@ var Department =
   },
 
 
-
+  Search_Default_Department_Typeahead: function (Department_Name_, callback) {
+    if (Department_Name_ === 'undefined' || Department_Name_ === '' || Department_Name_ === undefined)
+      Department_Name_ = '';
+    return db.query("CALL Search_Default_Department_Typeahead(@Department_Name_ :=?)",
+      [Department_Name_], callback);
+  },
 
   Search_Department_User_Typeahead_Task: function (Department_Id_, callback) {
     // if(Users_Name_==='undefined'||Users_Name_===''||Users_Name_===undefined )

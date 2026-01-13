@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var Location = require('../models/Location');
-router.post('/Save_Location/', function (req, res, next) {
+var Status_Duration = require('../models/Status_Duration');
+
+router.post('/Save_Department_Status_Duration/', function (req, res, next) {
   try {
-    Location.Save_Location(req.body, function (err, rows) {
+    Status_Duration.Save_Department_Status_Duration(req.body, function (err, rows) {
       if (err) {
         console.log("err", err);
 
@@ -24,9 +25,9 @@ router.post('/Save_Location/', function (req, res, next) {
   }
 });
 
-router.get('/Search_Location/:Location_Name_?/:Branch_Id_?/:Department_Id_?', function (req, res, next) {
+router.get('/Search_Department_Status_Duration/:Department_Status_Id_?/:Department_Id_?/:Duration_Count_?', function (req, res, next) {
   try {
-    Location.Search_Location(req.params.Location_Name_, req.params.Branch_Id_, req.params.Department_Id_, function (err, rows) {
+    Status_Duration.Search_Department_Status_Duration(req.params.Department_Status_Id_, req.params.Department_Id_,req.params.Duration_Count_, function (err, rows) {
       if (err) {
         res.json(err);
       }
@@ -44,7 +45,7 @@ router.get('/Search_Location/:Location_Name_?/:Branch_Id_?/:Department_Id_?', fu
 
 router.get('/Load_Branch/', function (req, res, next) {
   try {
-    Location.Load_Branch(function (err, rows) {
+    Status_Duration.Load_Branch(function (err, rows) {
       if (err) {
         res.json(err);
       }
@@ -61,7 +62,7 @@ router.get('/Load_Branch/', function (req, res, next) {
 
 router.get('/Load_Department/', function (req, res, next) {
   try {
-    Location.Load_Department(function (err, rows) {
+    Status_Duration.Load_Department(function (err, rows) {
       if (err) {
         res.json(err);
       }
@@ -78,7 +79,7 @@ router.get('/Load_Department/', function (req, res, next) {
 
 router.get('/Load_Department_Status/', function (req, res, next) {
   try {
-    Location.Load_Department_Status(function (err, rows) {
+    Status_Duration.Load_Department_Status(function (err, rows) {
       if (err) {
         res.json(err);
       }
@@ -94,9 +95,9 @@ router.get('/Load_Department_Status/', function (req, res, next) {
 });
 
 
-router.get('/Delete_Location/:Location_Id_?', function (req, res, next) {
+router.get('/Delete_Department_Status_Duration/:Department_Status_Duration_Id_?', function (req, res, next) {
   try {
-    Location.Delete_Location(req.params.Location_Id_, function (err, rows) {
+    Status_Duration.Delete_Department_Status_Duration(req.params.Department_Status_Duration_Id_, function (err, rows) {
       if (err) {
         res.json(err);
       }

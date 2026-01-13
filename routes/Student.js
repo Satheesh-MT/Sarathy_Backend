@@ -478,6 +478,30 @@ router.get(
   }
 );
 
+
+
+router.get(
+  "/Get_Followup_Date_Generic/:Student_Id_?/:Department_Id_?/:Status_Id_?",
+  function (req, res, next) {
+    try {
+      Student.Get_Followup_Date_Generic(
+        req.params.Student_Id_,
+        req.params.Department_Id_,
+         req.params.Status_Id_,
+        function (err, rows) {
+          if (err) {
+            res.json(err);
+          } else {
+            res.json(rows);
+          }
+        }
+      );
+    } catch (e) {
+    } finally {
+    }
+  }
+);
+
 router.get(
   "/Get_Visa_Task/:Student_Id_?/:Task_Group_Id_?",
   function (req, res, next) {
@@ -2296,7 +2320,8 @@ router.get("/Search_Student", async function (req, res, next) {
       req.query.Register_Value,
       req.query.Country_Id,
       req.query.Student_Id_,
-      req.query.Enquiry_Source_Id_
+      req.query.Enquiry_Source_Id_,
+      req.query.program_course_Id_
     );
     console.log(result);
     res.json(result);
@@ -3395,12 +3420,15 @@ router.post("/Save_Student_Report_FollowUp/", function (req, res) {
   try {
     Student.Save_Student_Report_FollowUp(req.body, function (err, rows) {
       if (err) {
+        console.log(err);
         res.json(err);
       } else {
+          console.log(rows);
         res.json(rows);
       }
     });
   } catch (e) {
+    console.log(e);
   } finally {
   }
 });
@@ -4881,9 +4909,10 @@ router.get(
   }
 );
 router.get(
-  "/Search_Overall_Report/:Fromdate_?/:Todate_?/:Search_By_?/:SearchbyName_?/:Department_?/:Enquiry_Source_?/:Branch_?/:By_User_?/:Is_Date_Check_?/:Is_Old_Datas_?/:Page_Index1_?/:Page_Index2_?/:Login_User_Id_?/:RowCount?/:RowCount2?/:remarks_?/:To_User_?/:Status_Id_?/:Register_Value_?/:Date_value_?/:Country_id_?/:Course_Id_",
+  "/Search_Overall_Report/:Fromdate_?/:Todate_?/:Search_By_?/:SearchbyName_?/:Department_?/:Enquiry_Source_?/:Branch_?/:By_User_?/:Is_Date_Check_?/:Is_Old_Datas_?/:Page_Index1_?/:Page_Index2_?/:Login_User_Id_?/:RowCount?/:RowCount2?/:remarks_?/:To_User_?/:Status_Id_?/:Register_Value_?/:Date_value_?/:Country_id_?/:Course_Id_?/:Enquiry_For_ ?",
   async function (req, res, next) {
     var result = "";
+    console.log(req.params);
     try {
       result = await Student.Search_Overall_Report(
         req.params.Fromdate_,
@@ -4907,11 +4936,13 @@ router.get(
         req.params.Register_Value_,
         req.params.Date_value_,
         req.params.Country_id_,
-        req.params.Course_Id_
+        req.params.Course_Id_,
+        req.params.Enquiry_For_
       );
-
+console.log(result);
       res.json(result);
     } catch (e) {
+      console.log(e);
     } finally {
     }
   }
@@ -4920,6 +4951,7 @@ router.get(
   "/Search_Student_Report_Followup/:Fromdate_?/:Todate_?/:Search_By_?/:SearchbyName_?/:Department_?/:Enquiry_Source_?/:Branch_?/:By_User_?/:Is_Date_Check_?/:Is_Old_Datas_?/:Page_Index1_?/:Page_Index2_?/:Login_User_Id_?/:RowCount?/:RowCount2?/:remarks_?/:To_User_?/:Status_Id_?/:Register_Value_?/:Date_value_?/:Country_Id_",
   async function (req, res, next) {
     var result = "";
+    console.log(req.params);
     try {
       result = await Student.Search_Student_Report_Followup(
         req.params.Fromdate_,
@@ -4944,9 +4976,10 @@ router.get(
         req.params.Date_value_,
         req.params.Country_Id_
       );
-
+console.log(result);
       res.json(result);
     } catch (e) {
+      console.log(e);
     } finally {
     }
   }
@@ -5313,12 +5346,13 @@ router.get("/Load_Automatic_Departments/", function (req, res, next) {
 });
 
 router.get(
-  "/Get_ToStaff_Student_DataCount/:Branch_?/:Followup_Date_?",
+  "/Get_ToStaff_Student_DataCount/:Branch_?/:Followup_Date_?/:Department_Id_?",
   function (req, res, next) {
     try {
       Student.Get_ToStaff_Student_DataCount(
         req.params.Branch_,
         req.params.Followup_Date_,
+        req.params.Department_Id_,
         function (err, rows) {
           if (err) {
             res.json(err);
